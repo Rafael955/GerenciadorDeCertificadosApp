@@ -1,0 +1,17 @@
+﻿using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
+using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GerenciadorDeCertificadosApp.Domain.Interfaces.Services
+{
+    public interface IUsuariosDomainService
+    {
+        RegistrarUsuarioResponseDto? RegistrarUsuario(RegistrarUsuarioRequestDto request);
+
+        AutenticarUsuarioResponseDto? AutenticarUsuario(AutenticarUsuarioRequestDto request);
+    }
+}

@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorDeCertificadosApp.Api", "GerenciadorDeCertificadosApp.Api\GerenciadorDeCertificadosApp.Api.csproj", "{34F78C1E-611A-439B-828F-5B8ECF12B0D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorDeCertificadosApp.Domain", "GerenciadorDeCertificadosApp.Domain\GerenciadorDeCertificadosApp.Domain.csproj", "{6B3CAB20-1C71-48AF-BAE0-AD4EA57043EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Api", "01 - Api", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Domain", "02 - Domain", "{46AC82F0-1F58-47C4-815E-E3F9E7DA4A35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Infrastructure", "03 - Infrastructure", "{E3F29660-F6E1-4018-B228-6621C14A34F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorDeCertificadosApp.Infra.Data", "GerenciadorDeCertificadosApp.Infra.Data\GerenciadorDeCertificadosApp.Infra.Data.csproj", "{91A5891E-D366-4ED8-8715-00EF8893C167}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Testing", "04 - Testing", "{5FC24B35-2D3D-4419-B4B7-E7168D85BB8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorDeCertificadosApp.Tests", "GerenciadorDeCertificadosApp.Test\GerenciadorDeCertificadosApp.Tests.csproj", "{E2C391C1-8842-416E-9C89-8C90F3E21672}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34F78C1E-611A-439B-828F-5B8ECF12B0D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F78C1E-611A-439B-828F-5B8ECF12B0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F78C1E-611A-439B-828F-5B8ECF12B0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F78C1E-611A-439B-828F-5B8ECF12B0D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3CAB20-1C71-48AF-BAE0-AD4EA57043EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3CAB20-1C71-48AF-BAE0-AD4EA57043EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3CAB20-1C71-48AF-BAE0-AD4EA57043EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3CAB20-1C71-48AF-BAE0-AD4EA57043EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A5891E-D366-4ED8-8715-00EF8893C167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A5891E-D366-4ED8-8715-00EF8893C167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A5891E-D366-4ED8-8715-00EF8893C167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A5891E-D366-4ED8-8715-00EF8893C167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2C391C1-8842-416E-9C89-8C90F3E21672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2C391C1-8842-416E-9C89-8C90F3E21672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2C391C1-8842-416E-9C89-8C90F3E21672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2C391C1-8842-416E-9C89-8C90F3E21672}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{34F78C1E-611A-439B-828F-5B8ECF12B0D1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6B3CAB20-1C71-48AF-BAE0-AD4EA57043EA} = {46AC82F0-1F58-47C4-815E-E3F9E7DA4A35}
+		{91A5891E-D366-4ED8-8715-00EF8893C167} = {E3F29660-F6E1-4018-B228-6621C14A34F3}
+		{E2C391C1-8842-416E-9C89-8C90F3E21672} = {5FC24B35-2D3D-4419-B4B7-E7168D85BB8C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B133339-1D34-4B8D-9084-67B230542C51}
+	EndGlobalSection
+EndGlobal
