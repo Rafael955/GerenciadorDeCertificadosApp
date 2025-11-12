@@ -1,4 +1,5 @@
-﻿using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
+﻿using FluentValidation;
+using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,12 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
                 var result = _atividadesDomainService.CriarAtividade(request);
 
                 return Created(string.Empty, result);
+            }
+            catch (ValidationException ex)
+            {
+                List<string> errorMessages = ex.Errors.Select(e => e.ErrorMessage).ToList();
+
+                return BadRequest(new ErrorMessageResponseDto(errorMessages));
             }
             catch (ApplicationException ex)
             {
@@ -61,7 +68,7 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("excluir-atividade/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
@@ -83,7 +90,7 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("obter-atividade/{id}")]
         [ProducesResponseType(typeof(AtividadeResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
@@ -105,7 +112,7 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("listar-atividades")]
         [ProducesResponseType(typeof(AtividadeResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult GetAll()

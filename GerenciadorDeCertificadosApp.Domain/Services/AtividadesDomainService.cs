@@ -57,9 +57,9 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
             if(atividade == null)
                 throw new ApplicationException("Atividade não encontrada.");
 
-            atividade = _atividadesRepository.GetByName(request.Nome);
+            var atividadePesquisada = _atividadesRepository.GetByName(request.Nome);
 
-            if (atividade != null && atividade.Id != id)
+            if (atividadePesquisada != null && atividadePesquisada.Id != id)
                 throw new ApplicationException("Já existe uma atividade com este nome.");
 
             atividade.AtualizarDados(request.Nome);

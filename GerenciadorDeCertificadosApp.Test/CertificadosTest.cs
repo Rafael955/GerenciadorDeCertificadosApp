@@ -44,6 +44,15 @@ namespace GerenciadorDeCertificadosApp.Tests
 
             //Assert : Verificar se a API retornou HTTP 201 (CREATED)
             response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            var content = response?.Content.ReadAsStringAsync()?.Result;
+            CertificadoResponseDto certificadoCriado = JsonConvert.DeserializeObject<CertificadoResponseDto>(content);
+
+            certificadoCriado?.Id.Should().NotBeEmpty();
+            certificadoCriado?.Nome.Should().Be(request.Nome);
+            certificadoCriado?.Atividades.Should().NotBeEmpty();
+            certificadoCriado?.UsuarioQueGerou.Should().Be("Admin");
+            certificadoCriado?.DataEmissao.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMinutes(1));
         }
 
         [Fact(DisplayName = "Deve alterar um certificado com sucesso.")]
@@ -99,12 +108,13 @@ namespace GerenciadorDeCertificadosApp.Tests
             //Assert : Verificar se dados retornados no response batem com os do request
             var contentUpdate = responseUpdate?.Content.ReadAsStringAsync()?.Result;
 
-            CertificadoResponseDto certificadoResponseUpdated = JsonConvert.DeserializeObject<CertificadoResponseDto>(contentUpdate);
+            CertificadoResponseDto certificadoUpdated = JsonConvert.DeserializeObject<CertificadoResponseDto>(contentUpdate);
 
-            certificadoResponseUpdated?.Id.Should().NotBeEmpty();
-            certificadoResponseUpdated?.Nome.Should().Be(requestUpdate.Nome);
-            certificadoResponseUpdated?.Atividades.Should().NotBeEmpty();
-            certificadoResponseUpdated?.UsuarioQueGerou.Should().Be("Admin");
+            certificadoUpdated?.Id.Should().NotBeEmpty();
+            certificadoUpdated?.Nome.Should().Be(requestUpdate.Nome);
+            certificadoUpdated?.Atividades.Should().NotBeEmpty();
+            certificadoUpdated?.UsuarioQueGerou.Should().Be("Admin");
+            certificadoUpdated?.DataEmissao.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMinutes(1));
         }
 
         [Fact(DisplayName = "Deve retornar erro informando que o certificado não foi encontrado.")]
@@ -193,7 +203,7 @@ namespace GerenciadorDeCertificadosApp.Tests
 
             var createdContent = createResponse.Content.ReadAsStringAsync().Result;
 
-            var created = JsonConvert.DeserializeObject<CertificadoResponseDto>(createdContent);
+            var certificadoCriado = JsonConvert.DeserializeObject<CertificadoResponseDto>(createdContent);
 
             // Act: listar certificados
             var listResponse = _client.GetAsync("/api/certificados/listar-certificados").Result;
@@ -202,10 +212,10 @@ namespace GerenciadorDeCertificadosApp.Tests
             listResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var listContent = listResponse.Content.ReadAsStringAsync().Result;
-            var certificados = JsonConvert.DeserializeObject<List<CertificadoResponseDto>>(listContent);
+            var listaCertificados = JsonConvert.DeserializeObject<List<CertificadoResponseDto>>(listContent);
 
-            certificados.Should().NotBeNull();
-            certificados.Any(c => c.Id == created.Id).Should().BeTrue();
+            listaCertificados.Should().NotBeNull();
+            listaCertificados.Any(c => c.Id == certificadoCriado.Id).Should().BeTrue();
         }
 
         [Fact(DisplayName = "Deve buscar certificado por id com atividades corretas.")]
@@ -235,10 +245,10 @@ namespace GerenciadorDeCertificadosApp.Tests
 
             var createdContent = createResponse.Content.ReadAsStringAsync().Result;
 
-            var created = JsonConvert.DeserializeObject<CertificadoResponseDto>(createdContent);
+            var certificadoCriado = JsonConvert.DeserializeObject<CertificadoResponseDto>(createdContent);
 
             // Act: buscar por id
-            var getResponse = _client.GetAsync($"/api/certificados/obter-certificado/{created.Id}").Result;
+            var getResponse = _client.GetAsync($"/api/certificados/obter-certificado/{certificadoCriado.Id}").Result;
 
             // Assert
             getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -247,9 +257,10 @@ namespace GerenciadorDeCertificadosApp.Tests
             var certificado = JsonConvert.DeserializeObject<CertificadoResponseDto>(getContent);
 
             certificado.Should().NotBeNull();
-            certificado.Id.Should().Be(created.Id);
+            certificado.Id.Should().Be(certificadoCriado.Id);
             certificado.Atividades.Should().NotBeEmpty();
             certificado.UsuarioQueGerou.Should().Be("Admin");
+            certificado?.DataEmissao.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMinutes(1));
         }
 
         [Fact(DisplayName = "Deve excluir certificado e não ser possível buscar depois.")]
@@ -276,24 +287,24 @@ namespace GerenciadorDeCertificadosApp.Tests
             createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var createdContent = createResponse.Content.ReadAsStringAsync().Result;
-            var created = JsonConvert.DeserializeObject<CertificadoResponseDto>(createdContent);
+            var certificadoCriado = JsonConvert.DeserializeObject<CertificadoResponseDto>(createdContent);
 
             // Act: excluir
-            var deleteResponse = _client.DeleteAsync($"/api/certificados/excluir-certificado/{created.Id}").Result;
+            var deleteResponse = _client.DeleteAsync($"/api/certificados/excluir-certificado/{certificadoCriado.Id}").Result;
 
             //Assert : Verificar se a API retornou HTTP 204 (NO CONTENT)
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             // Act: tentar buscar o certificado excluído
-            var getResponse = _client.GetAsync($"/api/certificados/obter-certificado/{created.Id}").Result;
+            var getResponse = _client.GetAsync($"/api/certificados/obter-certificado/{certificadoCriado.Id}").Result;
 
             // Assert:  Verificar se a API retornou HTTP 400 (BAD REQUEST)
             getResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             var getContent = getResponse.Content.ReadAsStringAsync().Result;
-            var error = JsonConvert.DeserializeObject<ErrorMessageResponseDto>(getContent);
+            var errorMessageResponse = JsonConvert.DeserializeObject<ErrorMessageResponseDto>(getContent);
 
-            error.ErrorMessages[0].Should().Be("Certificado não encontrado.");
+            errorMessageResponse?.ErrorMessages[0].Should().Be("Certificado não encontrado.");
         }
 
         [Fact(DisplayName = "Deve retornar erro ao criar certificado com dados inválidos.")]
@@ -314,10 +325,10 @@ namespace GerenciadorDeCertificadosApp.Tests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             var content = response.Content.ReadAsStringAsync().Result;
-            var error = JsonConvert.DeserializeObject<ErrorMessageResponseDto>(content);
+            var errorMessageResponse = JsonConvert.DeserializeObject<ErrorMessageResponseDto>(content);
 
-            error.Should().NotBeNull();
-            error.ErrorMessages.Should().NotBeEmpty();
+            errorMessageResponse?.Should().NotBeNull();
+            errorMessageResponse?.ErrorMessages.Should().NotBeEmpty();
         }
     }
 }

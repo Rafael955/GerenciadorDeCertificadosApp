@@ -2,7 +2,6 @@
 using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciadorDeCertificadosApp.Api.Controllers
