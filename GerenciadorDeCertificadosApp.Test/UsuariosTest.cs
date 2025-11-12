@@ -2,7 +2,6 @@
 using FluentAssertions;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
-using GerenciadorDeCertificadosApp.Domain.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
