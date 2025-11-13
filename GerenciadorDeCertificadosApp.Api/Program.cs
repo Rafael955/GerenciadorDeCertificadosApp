@@ -22,6 +22,8 @@ builder.Services.AddDependencyInjectionConfiguration();
 
 builder.Services.AddAuthConfiguration();
 
+builder.Services.AddCorsConfiguration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
