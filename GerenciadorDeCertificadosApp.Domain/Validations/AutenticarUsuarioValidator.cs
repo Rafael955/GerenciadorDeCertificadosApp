@@ -10,7 +10,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Validations
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage("O email do usuário deve ser informado.")
                 .MaximumLength(100).WithMessage("O email do usuário deve ter no máximo 100 caracteres.")
-                .EmailAddress().WithMessage("O email do usuário deve ser um endereço de email válido.");
+                .EmailAddress().WithMessage("O email do usuário deve ser válido.");
             RuleFor(u => u.Senha)
                 .NotEmpty().WithMessage("A senha do usuário deve ser informada.")
                 .MaximumLength(20).WithMessage("A senha do usuário deve ter no máximo 20 caracteres.");

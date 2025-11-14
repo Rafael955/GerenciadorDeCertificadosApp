@@ -33,6 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerConfiguration();
 }
 
+app.UseCorsConfiguration();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -2,7 +2,7 @@
 {
     public static class CorsConfiguration
     {
-        public const string PolicyName = "CorsPolicy";
+        public const string PolicyName = "AllowAngularApp";
 
         public static IServiceCollection AddCorsConfiguration(this IServiceCollection services)
         {
@@ -22,6 +22,13 @@
             });
 
             return services;
+        }
+
+        public static IApplicationBuilder UseCorsConfiguration(this IApplicationBuilder app) 
+        {
+            //Habilitando o CORS
+            app.UseCors(PolicyName);
+            return app;
         }
     }
 }
