@@ -9,7 +9,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Validations
         {
             RuleFor(u => u.NomeUsuario)
                 .NotEmpty().WithMessage("O nome de usuário deve ser informado.")
-                .MaximumLength(100).WithMessage("O nome de usuário deve ter no máximo 50 caracteres.")
+                .MaximumLength(50).WithMessage("O nome de usuário deve ter no máximo 50 caracteres.")
                 .MinimumLength(3).WithMessage("O nome de usuário deve ter no mínimo 3 caracteres.");
 
             RuleFor(u => u.Email)
