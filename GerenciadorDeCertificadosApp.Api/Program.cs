@@ -1,4 +1,5 @@
 using GerenciadorDeCertificadosApp.Api.Configurations;
+using GerenciadorDeCertificadosApp.Api.Exceptions;
 using GerenciadorDeCertificadosApp.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +14,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 //Pegando a string de conexão do appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDataContextConfiguration(builder.Configuration);
 
 builder.Services.AddSwaggerConfiguration();
 
@@ -23,6 +23,8 @@ builder.Services.AddDependencyInjectionConfiguration();
 builder.Services.AddAuthConfiguration();
 
 builder.Services.AddCorsConfiguration();
+
+builder.Services.AddGlobalExceptionsConfiguration();
 
 var app = builder.Build();
 
@@ -37,6 +39,8 @@ app.UseCorsConfiguration();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseGlobalExceptionsConfiguration(); //Deve ficar antes de app.MapControllers()
 
 app.MapControllers();
 

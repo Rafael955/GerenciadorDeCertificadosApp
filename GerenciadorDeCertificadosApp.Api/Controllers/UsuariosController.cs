@@ -22,19 +22,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult CreateUser([FromBody] RegistrarUsuarioRequestDto request)
         {
-            try
-            {
-                var result = _usuariosDomainService.RegistrarUsuario(request);
-                return Created(string.Empty, result);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro interno no servidor."));
-            }
+            var result = _usuariosDomainService.RegistrarUsuario(request);
+            return Created(string.Empty, result);
         }
 
         [HttpPost("login")]
@@ -43,19 +32,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Login([FromBody] AutenticarUsuarioRequestDto request)
         {
-            try
-            {
-                var result = _usuariosDomainService.AutenticarUsuario(request);
-                return Ok(result);
-            }
-            catch (ApplicationException ex)
-            {
-                return NotFound(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro interno no servidor."));
-            }
+            var result = _usuariosDomainService.AutenticarUsuario(request);
+            return Ok(result);
         }
     }
 }

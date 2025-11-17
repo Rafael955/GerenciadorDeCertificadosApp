@@ -25,26 +25,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Create([FromBody] AtividadeRequestDto request)
         {
-            try
-            {
-                var result = _atividadesDomainService.CriarAtividade(request);
-
-                return Created(string.Empty, result);
-            }
-            catch (ValidationException ex)
-            {
-                List<string> errorMessages = ex.Errors.Select(e => e.ErrorMessage).ToList();
-
-                return BadRequest(new ErrorMessageResponseDto(errorMessages));
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _atividadesDomainService.CriarAtividade(request);
+            return Created(string.Empty, result);
         }
 
         [HttpPut("alterar-atividade/{id}")]
@@ -53,20 +35,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Update([FromRoute] Guid id, [FromBody] AtividadeRequestDto request)
         {
-            try
-            {
-                var result = _atividadesDomainService.AlterarDadosAtividade(id, request);
-
-                return Ok(result);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _atividadesDomainService.AlterarDadosAtividade(id, request);
+            return Ok(result);
         }
 
         [HttpDelete("excluir-atividade/{id}")]
@@ -75,20 +45,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Delete([FromRoute] Guid id)
         {
-            try
-            {
-                _atividadesDomainService.ExcluirAtividade(id);
-
-                return NoContent();
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            _atividadesDomainService.ExcluirAtividade(id);
+            return NoContent();
         }
 
         [HttpGet("obter-atividade/{id}")]
@@ -97,20 +55,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult GetById(Guid id)
         {
-            try
-            {
-                var result = _atividadesDomainService.BuscarAtividadePorId(id);
-
-                return Ok(result);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _atividadesDomainService.BuscarAtividadePorId(id);
+            return Ok(result);
         }
 
         [HttpGet("listar-atividades")]
@@ -118,16 +64,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult GetAll()
         {
-            try
-            {
-                var result = _atividadesDomainService.ListarAtividades();
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _atividadesDomainService.ListarAtividades();
+            return Ok(result);
         }
 
     }

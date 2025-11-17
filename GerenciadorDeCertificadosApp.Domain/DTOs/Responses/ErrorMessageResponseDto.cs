@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace GerenciadorDeCertificadosApp.Domain.DTOs.Responses
+﻿namespace GerenciadorDeCertificadosApp.Domain.DTOs.Responses
 {
     public class ErrorMessageResponseDto
     {

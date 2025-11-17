@@ -29,7 +29,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Helpers
             var token = new JwtSecurityToken(
                     claims: claims, //informações do usuário do token
                     notBefore: DateTime.UtcNow,
-                    expires: DateTime.UtcNow.AddMinutes(30),
+                    expires: DateTime.UtcNow.AddMinutes(60),
                     signingCredentials: credentials
                 );
 

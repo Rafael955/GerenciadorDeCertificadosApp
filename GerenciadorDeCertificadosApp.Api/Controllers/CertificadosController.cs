@@ -26,26 +26,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Create([FromBody] CertificadoRequestDto request)
         {
-            try
-            {
-                var result = _certificadosDomainService.CriarCertificado(request);
-
-                return Created(string.Empty, result);
-            }
-            catch (ValidationException ex)
-            {
-                List<string> errorMessages = ex.Errors.Select(e => e.ErrorMessage).ToList();
-
-                return BadRequest(new ErrorMessageResponseDto(errorMessages));
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _certificadosDomainService.CriarCertificado(request);
+            return Created(string.Empty, result);
         }
 
         [HttpPut("atualizar-certificado/{id}")]
@@ -54,26 +36,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Update([FromRoute] Guid id, [FromBody] CertificadoRequestDto request)
         {
-            try
-            {
-                var result = _certificadosDomainService.AlterarDadosCertificado(id, request);
-
-                return Ok(result);
-            }
-            catch (ValidationException ex)
-            {
-                List<string> errorMessages = ex.Errors.Select(e => e.ErrorMessage).ToList();
-
-                return BadRequest(new ErrorMessageResponseDto(errorMessages));
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _certificadosDomainService.AlterarDadosCertificado(id, request);
+            return Ok(result);
         }
 
         [HttpDelete("excluir-certificado/{id}")]
@@ -82,20 +46,8 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Delete([FromRoute] Guid id)
         {
-            try
-            {
-                _certificadosDomainService.ExcluirCertificado(id);
-
-                return NoContent();
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            _certificadosDomainService.ExcluirCertificado(id);
+            return NoContent();
         }
 
         [HttpGet("obter-certificado/{id}")]
@@ -104,35 +56,17 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            try
-            {
-                var result = _certificadosDomainService.BuscarCertificadoPorId(id);
-                return Ok(result);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new ErrorMessageResponseDto(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _certificadosDomainService.BuscarCertificadoPorId(id);
+            return Ok(result);
         }
 
         [HttpGet("listar-certificados")]
-        [ProducesResponseType(typeof(CertificadoResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CertificadoResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult GetAll()
         {
-            try
-            {
-                var result = _certificadosDomainService.ListarCertificados();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorMessageResponseDto("Ocorreu um erro inesperado no servidor."));
-            }
+            var result = _certificadosDomainService.ListarCertificados();
+            return Ok(result);
         }
     }
 }
