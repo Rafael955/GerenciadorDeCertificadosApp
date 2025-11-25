@@ -1,4 +1,4 @@
-﻿using GerenciadorDeCertificadosApp.Api.Exceptions;
+﻿using GerenciadorDeCertificadosApp.Api.Middlewares;
 
 namespace GerenciadorDeCertificadosApp.Api.Configurations
 {

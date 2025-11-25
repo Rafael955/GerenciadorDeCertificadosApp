@@ -34,7 +34,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
             var atividadeExistente = _atividadesRepository.GetByName(request.Nome);
 
             if (atividadeExistente != null)
-                throw new ApplicationException("Já existe uma atividade com este nome.");
+                throw new ApplicationException("Já existe uma atividade cadastrada com este nome.");
 
             var atividade = new Atividade(request.Nome);
 

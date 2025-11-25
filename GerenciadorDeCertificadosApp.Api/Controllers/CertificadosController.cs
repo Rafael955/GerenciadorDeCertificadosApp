@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
+﻿using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;

@@ -10,7 +10,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Entities
     {
         public Guid IdCertificado { get; set; }
 
-        public Certificado Certificado { get; set; }
+        public Certificado Certificado { get; set; } 
 
         public Guid IdAtividade { get; set; }
 

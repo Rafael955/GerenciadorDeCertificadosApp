@@ -2,9 +2,9 @@
 {
     public class Atividade : IBaseEntity
     {
-        public string Nome { get; private set; }
+        public string Nome { get; private set; } = string.Empty;
 
-        public List<CertificadoAtividade> Certificados { get; private set; }
+        public List<CertificadoAtividade> Certificados { get; private set; } = new();
 
         // ✅ Construtor privado usado pelo EF
         private Atividade()

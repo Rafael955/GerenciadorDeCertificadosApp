@@ -3,6 +3,7 @@ using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
 using GerenciadorDeCertificadosApp.Domain.Entities;
 using GerenciadorDeCertificadosApp.Domain.Enums;
+using GerenciadorDeCertificadosApp.Domain.Exceptions;
 using GerenciadorDeCertificadosApp.Domain.Helpers;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Repositories;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Services;
@@ -51,7 +52,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
             var usuario = _usuarioRepository.GetUserByEmailAndPassword(request.Email, CryptoHelper.GetSHA256(request.Senha));
 
             if(usuario == null)
-                throw new ApplicationException("Usuário ou senha inválidos.");
+                throw new UserNotFoundException("Usuário ou senha inválidos.");
 
             return usuario.MapToResponseDto(OperacaoUsuario.AuthenticateUser);
         }

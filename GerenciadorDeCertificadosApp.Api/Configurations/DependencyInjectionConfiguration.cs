@@ -14,7 +14,7 @@ namespace GerenciadorDeCertificadosApp.Api.Configurations
             services.AddScoped<ICertificadoAtividadesRepository, CertificadoAtividadesRepository>();
             services.AddScoped<ICertificadosRepository, CertificadosRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-         
+
             services.AddScoped<ICertificadosDomainService, CertificadosDomainService>();
             services.AddScoped<IAtividadesDomainService, AtividadesDomainService>();
             services.AddScoped<IUsuariosDomainService, UsuariosDomainService>();

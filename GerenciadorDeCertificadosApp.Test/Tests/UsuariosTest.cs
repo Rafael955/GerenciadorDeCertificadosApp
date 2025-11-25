@@ -2,21 +2,23 @@
 using FluentAssertions;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace GerenciadorDeCertificadosApp.Tests
+namespace GerenciadorDeCertificadosApp.Tests.Tests
 {
+    [Collection("Database Collection")]
     public class UsuariosTest
     {
         private readonly HttpClient _client;
         private readonly Faker _faker;
+        private readonly DatabaseFixture _fixture;
 
-        public UsuariosTest()
+        public UsuariosTest(DatabaseFixture fixture)
         {
-            _client = new WebApplicationFactory<Program>().CreateClient();
+            _fixture = fixture;
+            _client = _fixture.Factory.CreateClient();
             _faker = new Faker("pt_BR");
         }
 

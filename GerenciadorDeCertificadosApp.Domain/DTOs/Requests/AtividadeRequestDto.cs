@@ -8,6 +8,6 @@ namespace GerenciadorDeCertificadosApp.Domain.DTOs.Requests
 {
     public class AtividadeRequestDto
     {
-        public string Nome { get; set; }
+        public string Nome { get; set; } = string.Empty;
     }
 }

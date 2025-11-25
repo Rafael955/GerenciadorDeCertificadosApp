@@ -2,7 +2,7 @@
 {
     public class Certificado : IBaseEntity
     {
-        public string Nome { get; private set; }
+        public string Nome { get; private set; } = string.Empty;
 
         public DateTime DataEmissao { get; private set; }
 

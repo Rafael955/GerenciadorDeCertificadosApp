@@ -1,17 +1,21 @@
 ﻿using GerenciadorDeCertificadosApp.Domain.Entities;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Repositories;
 using GerenciadorDeCertificadosApp.Infra.Data.Contexts;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace GerenciadorDeCertificadosApp.Infra.Data.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : IBaseEntity
     {
         private readonly DataContext _context;
+        private readonly IHostEnvironment _env; // Novo campo
 
-        public BaseRepository(DataContext context)
+        public BaseRepository(DataContext context, IHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public virtual void Add(T objeto)

@@ -2,21 +2,24 @@
 using FluentAssertions;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace GerenciadorDeCertificadosApp.Tests
+namespace GerenciadorDeCertificadosApp.Tests.Tests
 {
+    [Collection("Database Collection")]
     public class AtividadesTest
     {
         private readonly HttpClient _client;
         private readonly Faker _faker;
+        private readonly DatabaseFixture _fixture;
 
-        public AtividadesTest()
+        public AtividadesTest(DatabaseFixture fixture)
         {
-            _client = new WebApplicationFactory<Program>().CreateClient();
+            //_client = new WebApplicationFactory<Program>().CreateClient();
+            _fixture = fixture;
+            _client = _fixture.Factory.CreateClient();
             _faker = new Faker("pt_BR");
         }
 
@@ -224,7 +227,7 @@ namespace GerenciadorDeCertificadosApp.Tests
             var error = JsonConvert.DeserializeObject<ErrorMessageResponseDto>(content);
 
             error.Should().NotBeNull();
-            error.ErrorMessages[0].Should().Be("Já existe uma atividade com este nome.");
+            error.ErrorMessages[0].Should().Be("Já existe uma atividade cadastrada com este nome.");
         }
 
         [Fact(DisplayName = "Deve listar atividades existentes")]

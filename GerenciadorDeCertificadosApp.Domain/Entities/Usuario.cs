@@ -5,16 +5,16 @@ namespace GerenciadorDeCertificadosApp.Domain.Entities
 {
     public class Usuario : IBaseEntity
     {
-        public string NomeUsuario { get; private set; }
+        public string NomeUsuario { get; private set; } = string.Empty;
 
-        public string Email { get; private set; }
+        public string Email { get; private set; } = string.Empty;
 
-        public string Senha { get; private set; }
+        public string Senha { get; private set; } = string.Empty;
 
         public Perfil Perfil { get; private set; }
 
 
-        public List<Certificado> Certificados { get; private set; }
+        public List<Certificado> Certificados { get; private set; } = new();
 
 
         // ✅ Construtor privado usado pelo EF

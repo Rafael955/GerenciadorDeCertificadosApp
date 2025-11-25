@@ -2,8 +2,9 @@
 using System.Text.Json;
 using FluentValidation;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
+using GerenciadorDeCertificadosApp.Domain.Exceptions;
 
-namespace GerenciadorDeCertificadosApp.Api.Exceptions
+namespace GerenciadorDeCertificadosApp.Api.Middlewares
 {
     public class GlobalExceptionHandlerMiddleware : IMiddleware
     {
@@ -27,15 +28,14 @@ namespace GerenciadorDeCertificadosApp.Api.Exceptions
 
             context.Response.StatusCode = (int)status;
 
-            var json = JsonSerializer.Serialize(
-                responseDto,
-                new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                });
+            var jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
 
-            await context.Response.WriteAsync(json);
+            // Escreve o DTO diretamente como JSON estruturado na resposta
+            await context.Response.WriteAsJsonAsync(responseDto, jsonOptions);
         }
 
         private static (HttpStatusCode status, ErrorMessageResponseDto response)
@@ -57,6 +57,13 @@ namespace GerenciadorDeCertificadosApp.Api.Exceptions
                     (
                         HttpStatusCode.BadRequest,
                         new ErrorMessageResponseDto(applicationException.Message)
+                    ),
+
+                // Exceções de domínio → 404
+                UserNotFoundException userNotFoundException =>
+                    (
+                        HttpStatusCode.NotFound,
+                        new ErrorMessageResponseDto(userNotFoundException.Message)
                     ),
 
                 // Erros genéricos → 500

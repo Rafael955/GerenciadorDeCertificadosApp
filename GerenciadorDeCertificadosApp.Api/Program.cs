@@ -1,7 +1,4 @@
 using GerenciadorDeCertificadosApp.Api.Configurations;
-using GerenciadorDeCertificadosApp.Api.Exceptions;
-using GerenciadorDeCertificadosApp.Infra.Data.Contexts;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,18 +10,23 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-//Pegando a string de conexão do appsettings.json
-builder.Services.AddDataContextConfiguration(builder.Configuration);
+// Registra a autenticação de produção apenas quando NÃO estiver em ambiente de teste
+if (!builder.Environment.IsEnvironment("Testing")) 
+{   
+    //Pegando a string de conexão do appsettings.json
+    builder.Services.AddDataContextConfiguration(builder.Configuration);
+
+    builder.Services.AddAuthConfiguration();
+}
 
 builder.Services.AddSwaggerConfiguration();
 
 builder.Services.AddDependencyInjectionConfiguration();
 
-builder.Services.AddAuthConfiguration();
-
 builder.Services.AddCorsConfiguration();
 
 builder.Services.AddGlobalExceptionsConfiguration();
+
 
 var app = builder.Build();
 

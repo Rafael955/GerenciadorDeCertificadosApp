@@ -2,6 +2,7 @@
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Repositories;
 using GerenciadorDeCertificadosApp.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace GerenciadorDeCertificadosApp.Infra.Data.Repositories
 {
@@ -9,7 +10,7 @@ namespace GerenciadorDeCertificadosApp.Infra.Data.Repositories
     {
         private readonly DataContext _context;
 
-        public AtividadesRepository(DataContext context) : base(context)
+        public AtividadesRepository(DataContext context, IHostEnvironment env) : base(context, env)
         {
             _context = context;
         }
