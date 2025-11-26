@@ -6,6 +6,7 @@ using GerenciadorDeCertificadosApp.Domain.Interfaces.Repositories;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Services;
 using GerenciadorDeCertificadosApp.Domain.Mappers;
 using GerenciadorDeCertificadosApp.Domain.Validations;
+using System.Linq;
 
 namespace GerenciadorDeCertificadosApp.Domain.Services
 {
@@ -26,7 +27,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
         {
             var validation = new CertificadoValidator().Validate(request);
 
-            if(!validation.IsValid)
+            if (!validation.IsValid)
             {
                 throw new ValidationException(validation.Errors);
             }
@@ -43,7 +44,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
             {
                 var _atividade = _atividadesRepository.GetByName(atividade.Nome);
 
-                if(_atividade == null)
+                if (_atividade == null)
                 {
                     _atividadesRepository.Add(atividade);
                     _atividade = _atividadesRepository.GetById(atividade.Id);
@@ -55,7 +56,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
                 _certificadoAtividadesRepository.AddCertificateWithActivities(new CertificadoAtividade
                 {
                     IdCertificado = certificado.Id,
-                    IdAtividade =_atividade.Id
+                    IdAtividade = _atividade.Id
                 });
             }
 
@@ -77,7 +78,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
 
             var certificado = _certificadosRepository.GetById(id);
 
-            if(certificado is null)
+            if (certificado is null)
                 throw new ApplicationException("Certificado não encontrado.");
 
             certificado.AtualizarDados(request.Nome, certificado.UsuarioId);
@@ -137,18 +138,25 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
             return certificado.MapToResponseDto();
         }
 
-        public List<CertificadoResponseDto>? ListarCertificados()
+        public List<CertificadoResponseDto>? ListarCertificados(Guid? userId)
         {
-            var certificados = _certificadosRepository.GetAll();
+            var certificados = userId == null ?
+                _certificadosRepository.GetAll() :
+                _certificadosRepository.GetByUserId(userId.Value);
 
             List<CertificadoResponseDto> certificadosDto = new List<CertificadoResponseDto>();
 
-            foreach (var certificado in certificados)
+            if (certificados is null || certificados.Count == 0)
+                return certificadosDto;
+            else
             {
-                certificadosDto.Add(certificado.MapToResponseDto());
-            }
+                foreach (var certificado in certificados)
+                {
+                    certificadosDto.Add(certificado.MapToResponseDto());
+                }
 
-            return certificadosDto;
+                return certificadosDto;
+            }
         }
     }
 }

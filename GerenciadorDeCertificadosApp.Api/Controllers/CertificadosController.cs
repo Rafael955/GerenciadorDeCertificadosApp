@@ -59,12 +59,12 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("listar-certificados")]
+        [HttpGet("listar-certificados/{userId?}")]
         [ProducesResponseType(typeof(List<CertificadoResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromRoute] Guid? userId)
         {
-            var result = _certificadosDomainService.ListarCertificados();
+            var result = _certificadosDomainService.ListarCertificados(userId);
             return Ok(result);
         }
     }

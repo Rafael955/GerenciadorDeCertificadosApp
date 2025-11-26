@@ -13,6 +13,6 @@ namespace GerenciadorDeCertificadosApp.Domain.Interfaces.Services
 
         CertificadoResponseDto? BuscarCertificadoPorId(Guid id);
 
-        List<CertificadoResponseDto>? ListarCertificados();
+        List<CertificadoResponseDto>? ListarCertificados(Guid? userId = null);
     }
 }

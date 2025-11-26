@@ -38,8 +38,7 @@ namespace GerenciadorDeCertificadosApp.Api.Middlewares
             await context.Response.WriteAsJsonAsync(responseDto, jsonOptions);
         }
 
-        private static (HttpStatusCode status, ErrorMessageResponseDto response)
-            BuildErrorResponse(Exception ex)
+        private static (HttpStatusCode status, ErrorMessageResponseDto response) BuildErrorResponse(Exception ex)
         {
             return ex switch
             {

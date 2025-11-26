@@ -9,6 +9,6 @@ namespace GerenciadorDeCertificadosApp.Domain.Interfaces.Repositories
 {
     public interface ICertificadosRepository : IBaseRepository<Certificado>
     {
-
+        List<Certificado>? GetByUserId(Guid userId);
     }
 }
