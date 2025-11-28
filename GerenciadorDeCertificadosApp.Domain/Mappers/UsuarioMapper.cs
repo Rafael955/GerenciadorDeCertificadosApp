@@ -34,6 +34,16 @@ namespace GerenciadorDeCertificadosApp.Domain.Mappers
                             Token = JwtTokenHelper.GenerateToken(usuario.Email, usuario.Perfil.GetDescription())
                         };
                     }
+                case OperacaoUsuario.ListingUsers:
+                    {
+                        return new UsuarioResponseDto
+                        {
+                            Id = usuario.Id,
+                            NomeUsuario = usuario.NomeUsuario,
+                            Email = usuario.Email,
+                            Perfil = usuario.Perfil.GetDescription()
+                        };
+                    }
                 default:
                     throw new ApplicationException("Operação de usuário inválida");
             }

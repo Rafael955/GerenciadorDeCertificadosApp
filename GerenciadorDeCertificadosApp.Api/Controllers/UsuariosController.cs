@@ -1,6 +1,7 @@
 ﻿using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
 using GerenciadorDeCertificadosApp.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciadorDeCertificadosApp.Api.Controllers
@@ -35,5 +36,26 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
             var result = _usuariosDomainService.AutenticarUsuario(request);
             return Ok(result);
         }
+
+        [Authorize(Roles = "Administrador")]
+        [ProducesResponseType(typeof(List<UsuarioResponseDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
+        [HttpGet("listar-usuarios")]
+        public IActionResult ListUsers()
+        {
+            var result = _usuariosDomainService.ListarUsuarios();
+            return Ok(result);
+        }
+
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
+        [HttpDelete("excluir-usuario/{idUser}")]
+        public IActionResult DeleteUser([FromRoute]Guid idUser)
+        {
+            _usuariosDomainService.ExcluirContaUsuario(idUser);
+            return NoContent();
+        }
+
     }
 }

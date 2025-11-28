@@ -25,5 +25,12 @@ namespace GerenciadorDeCertificadosApp.Infra.Data.Repositories
             return _context.Set<Usuario>()
                 .Any(u => u.Email == email);
         }
+
+        public void DeleteUserAccount(Guid id)
+        {
+            var user = GetById(id);
+            _context.Set<Usuario>().Remove(user!);
+            _context.SaveChanges();
+        }
     }
 }

@@ -51,10 +51,36 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
 
             var usuario = _usuarioRepository.GetUserByEmailAndPassword(request.Email, CryptoHelper.GetSHA256(request.Senha));
 
-            if(usuario == null)
+            if (usuario == null)
                 throw new UserNotFoundException("Usuário ou senha inválidos.");
 
             return usuario.MapToResponseDto(OperacaoUsuario.AuthenticateUser);
+        }
+
+        public List<UsuarioResponseDto>? ListarUsuarios()
+        {
+            var usuarios = _usuarioRepository.GetAll()?.ToList();
+            List<UsuarioResponseDto>? _usuariosDto = new List<UsuarioResponseDto>();
+
+            if (usuarios != null && usuarios.Any())
+            {
+                foreach (var usuario in usuarios)
+                {
+                    _usuariosDto.Add(usuario.MapToResponseDto(OperacaoUsuario.ListingUsers));
+                }
+            }
+
+            return _usuariosDto;
+        }
+
+        public void ExcluirContaUsuario(Guid usuarioId)
+        {
+            var usuario = _usuarioRepository.GetById(usuarioId);
+
+            if(usuario == null)
+                throw new UserNotFoundException("O usuário não existe. Não será possível excluir");
+
+            _usuarioRepository.DeleteUserAccount(usuarioId);
         }
     }
 }

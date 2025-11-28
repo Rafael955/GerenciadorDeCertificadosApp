@@ -1,10 +1,5 @@
 ﻿using GerenciadorDeCertificadosApp.Domain.DTOs.Requests;
 using GerenciadorDeCertificadosApp.Domain.DTOs.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GerenciadorDeCertificadosApp.Domain.Interfaces.Services
 {
@@ -13,5 +8,9 @@ namespace GerenciadorDeCertificadosApp.Domain.Interfaces.Services
         RegistrarUsuarioResponseDto? RegistrarUsuario(RegistrarUsuarioRequestDto request);
 
         AutenticarUsuarioResponseDto? AutenticarUsuario(AutenticarUsuarioRequestDto request);
+
+        List<UsuarioResponseDto>? ListarUsuarios();
+
+        void ExcluirContaUsuario(Guid usuarioId);
     }
 }

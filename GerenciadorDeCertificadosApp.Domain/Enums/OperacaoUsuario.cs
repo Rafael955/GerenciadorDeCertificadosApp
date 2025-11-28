@@ -3,6 +3,7 @@
     public enum OperacaoUsuario
     {
         RegisterUser = 1,
-        AuthenticateUser = 2
+        AuthenticateUser = 2,
+        ListingUsers = 3
     }
 }

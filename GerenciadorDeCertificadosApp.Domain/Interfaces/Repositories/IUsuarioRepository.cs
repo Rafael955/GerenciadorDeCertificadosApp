@@ -7,5 +7,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Interfaces.Repositories
         Usuario? GetUserByEmailAndPassword(string email, string senha);
 
         bool Any(string email);
+
+        void DeleteUserAccount(Guid id);
     }
 }
