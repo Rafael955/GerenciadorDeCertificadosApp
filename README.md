@@ -33,6 +33,8 @@ Web API elaborada em C# com ASP.NET Core para gerenciamento de certificados e at
 - Usuários (conforme `UsuariosController`))
   - POST `/api/usuarios/cadastrar-usuario` — criar usuário
   - POST `/api/usuarios/login` — autenticar e obter token JWT
+  - GET `/api/usuarios/listar-usuarios` — listagem de usuários (acesso restrito ao administrador)
+  - DELETE `/api/usuarios/excluir-usuario/{id}` — exclusão de usuário/conta
 
 Exemplo rápido (Atividades):
 - Criar:

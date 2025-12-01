@@ -7,7 +7,7 @@ namespace GerenciadorDeCertificadosApp.Api.Configurations
     {
         public static void AddDataContextConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnectionDocker");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
         }
     }
