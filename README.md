@@ -79,12 +79,52 @@ Observação: rotas protegidas por autenticação JWT exigem header `Authorization: 
   - Atualizar banco:
     dotnet ef database update --project GerenciadorDeCertificadosApp.Infra.Data --startup-project GerenciadorDeCertificadosApp.Api
 
+## Banco de dados com Docker (SQL Server)
+
+Se preferir não instalar o SQL Server localmente, é possível rodar uma instância do SQL Server em Docker. Abaixo há exemplos com `docker run` e `docker-compose`, além de orientações para configuração da `ConnectionString` e aplicação das migrations.
+
+Opção 1 — executar com `docker run`:
+
+```bash
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=SuaSenhaForte123!" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server
+```
+
+Após alguns instantes, o SQL Server estará acessível em `localhost:1433`. Ajuste a `ConnectionString` em `appsettings.json` para utilizar o SQL Server Docker.
+
+Opção 2 — executar com `docker-compose`:
+
+```yaml
+version: '3.8'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "SuaSenhaForte123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+```
+
+Basta criar um arquivo `docker-compose.yml` com o conteúdo acima e executar `docker-compose up -d`. O SQL Server ficará disponível em `localhost:1433`.
+
+### Configuração da ConnectionString
+
+Exemplo de `ConnectionString` para SQL Server (ajuste a senha):
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost,1433;Database=SeuBancoDeDados;User=sa;Password=SuaSenhaForte123!;"
+}
+```
+
+### Aplicação de Migrations
+
+Com o SQL Server em execução, aplique as migrations usando o comando:
+
+```bash
+dotnet ef database update --project GerenciadorDeCertificadosApp.Infra.Data --startup-project GerenciadorDeCertificadosApp.Api
+```
+
 ## Testes
 - Executar testes unitários:
   dotnet test GerenciadorDeCertificadosApp.Test
-
-## Boas práticas e pontos de atenção
-- Validações estão implementadas via validators em `Domain/Validations`.
-- Mapeamentos DTO <-> Entity via mappers em `Domain/Mappers`.
-- Trate exceções de negócio via `ApplicationException` (padrão usado nos controllers).
-- Use Swagger para inspeção de contratos e para obter exemplos de request/response.
