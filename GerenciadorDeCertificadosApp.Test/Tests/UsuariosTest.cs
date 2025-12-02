@@ -170,5 +170,59 @@ namespace GerenciadorDeCertificadosApp.Tests.Tests
             error.Should().NotBeNull();
             error.ErrorMessages.Should().Contain("Usuário ou senha inválidos.");
         }
+
+        [Fact(DisplayName = "Deve retornar lista de usuários com sucesso")]
+        public void DeveRetornarListaDeUsuariosComSucesso()
+        {
+            var response = _client.GetAsync("/api/usuarios/listar-usuarios").Result;
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = response.Content.ReadAsStringAsync().Result;
+
+            var usuariosResponse = JsonConvert.DeserializeObject<List<UsuarioResponseDto>>(content);
+
+            usuariosResponse.Should().NotBeNull();
+            usuariosResponse.Should().BeOfType<List<UsuarioResponseDto>>();
+        }
+
+        [Fact(DisplayName = "Deve excluir um usuário com sucesso")]
+        public void DeveExcluirUsuarioComSucesso()
+        {
+            var request = new RegistrarUsuarioRequestDto
+            {
+                NomeUsuario = _faker.Internet.UserName(),
+                Email = _faker.Internet.Email(),
+                Senha = "SenhaForte!1234",
+                Perfil = 2
+            };
+
+            var response = _client.PostAsJsonAsync("/api/usuarios/criar-usuario", request).Result;
+
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            var content = response.Content.ReadAsStringAsync().Result;
+            var usuarioResponse = JsonConvert.DeserializeObject<RegistrarUsuarioResponseDto>(content);
+
+            // Excluindo o usuário criado
+            var deleteResponse = _client.DeleteAsync($"/api/usuarios/excluir-usuario/{usuarioResponse.Id}").Result;
+
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact(DisplayName = "Deve excluir um usuário com sucesso")]
+        public void DeveRetornarErro_UsuarioNaoEncontrado()
+        {
+            // Tentando excluir um usuário inexistente
+            var deleteResponse = _client.DeleteAsync($"/api/usuarios/excluir-usuario/{Guid.NewGuid()}").Result;
+
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            var content = deleteResponse.Content.ReadAsStringAsync().Result;
+            var error = JsonConvert.DeserializeObject<ErrorMessageResponseDto>(content);
+
+            error.Should().NotBeNull();
+            error.ErrorMessages.Should().Contain("O usuário não existe. Não será possível excluir!");
+        }
     }
 }

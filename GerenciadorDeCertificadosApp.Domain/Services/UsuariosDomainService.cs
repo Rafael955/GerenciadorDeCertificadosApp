@@ -78,7 +78,7 @@ namespace GerenciadorDeCertificadosApp.Domain.Services
             var usuario = _usuarioRepository.GetById(usuarioId);
 
             if(usuario == null)
-                throw new UserNotFoundException("O usuário não existe. Não será possível excluir");
+                throw new UserNotFoundException("O usuário não existe. Não será possível excluir!");
 
             _usuarioRepository.DeleteUserAccount(usuarioId);
         }

@@ -49,6 +49,7 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
 
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorMessageResponseDto), StatusCodes.Status500InternalServerError)]
         [HttpDelete("excluir-usuario/{idUser}")]
         public IActionResult DeleteUser([FromRoute]Guid idUser)
@@ -56,6 +57,5 @@ namespace GerenciadorDeCertificadosApp.Api.Controllers
             _usuariosDomainService.ExcluirContaUsuario(idUser);
             return NoContent();
         }
-
     }
 }
